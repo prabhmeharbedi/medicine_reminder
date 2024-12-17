@@ -5,15 +5,19 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 
 def send_email(to, subject, body):
-    with app.app_context():
-        msg = Message(
-            subject=subject,
-            recipients=[to],
-            body=body,
-            sender=app.config['MAIL_USERNAME']
-        )
-        mail.send(msg)
-        print(f"Email sent to: {to}")
+    print(f"Preparing to send email to {to}")
+    try:
+        with app.app_context():
+            msg = Message(
+                subject=subject,
+                recipients=[to],
+                body=body,
+                sender=app.config['MAIL_USERNAME']
+            )
+            mail.send(msg)
+            print(f"Email sent successfully to {to}")
+    except Exception as e:
+        print(f"Error sending email to {to}: {str(e)}")
 
 def check_and_send_reminders():
     print("Checking for reminders...")
