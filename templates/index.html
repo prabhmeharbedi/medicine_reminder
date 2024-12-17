@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intellimed - Medicine Reminder Service</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #007BFF;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            color: #fff !important;
+            font-weight: bold;
+            letter-spacing: 1px;
+            font-size: 1.8rem;
+        }
+        .hero-section {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-radius: 0 0 50% 50% / 10%;
+        }
+        .hero-section h1 {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: -50px;
+        }
+        label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .btn-primary {
+            background-color: #007BFF;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #007BFF;
+            color: #fff;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Intellimed</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1>Welcome to Intellimed</h1>
+        <p>Your trusted partner for Medicine and Dosage Reminders</p>
+    </div>
+
+    <!-- Form Section -->
+    <div class="container">
+        <div class="form-container mx-auto col-md-8 col-lg-6">
+            <h3 class="text-center mb-4">Set Your Medicine Reminder</h3>
+            <form id="reminderForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Patient Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="medicine_name" class="form-label">Medicine Name</label>
+                    <input type="text" class="form-control" id="medicine_name" placeholder="Enter medicine name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="dosage" class="form-label">Dosage</label>
+                    <input type="text" class="form-control" id="dosage" placeholder="Enter dosage details" required>
+                </div>
+                <div class="mb-3">
+                    <label for="reminder_time" class="form-label">Reminder Time</label>
+                    <input type="datetime-local" class="form-control" id="reminder_time" required>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Add Reminder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Intellimed | Your Health, Our Priority</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        document.getElementById("reminderForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const data = {
+                email: document.getElementById("email").value,
+                medicine_name: document.getElementById("medicine_name").value,
+                dosage: document.getElementById("dosage").value,
+                reminder_time: document.getElementById("reminder_time").value
+            };
+
+            fetch("/add_reminder", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }).then(response => response.json())
+              .then(data => {
+                alert(data.message);
+                document.getElementById("reminderForm").reset();
+            });
+        });
+    </script>
+</body>
+</html>
