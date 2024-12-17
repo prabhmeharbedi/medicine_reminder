@@ -88,9 +88,8 @@ scheduler.add_job(check_and_send_reminders, 'interval', minutes=1)  # Checks eve
 scheduler.start()
 print("Scheduler started...")
 
-# Database initialization and app launch
 if __name__ == "__main__":
-    print(f"Database path: {os.path.abspath('reminders.db')}")
+    port = int(os.environ.get("PORT", 8000))  # Use Railway's $PORT
     with app.app_context():
-        db.create_all()  # Create database tables if they don't exist
-    app.run(debug=False, host='0.0.0.0', port=8000)
+        db.create_all()
+    app.run(host='0.0.0.0', port=port)
