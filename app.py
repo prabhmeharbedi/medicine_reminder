@@ -51,15 +51,17 @@ def add_reminder():
 
 # Email Function
 def send_email(to, subject, body):
-    print(f"Preparing to send email to {to}")
+    print(f"Preparing to send email to: {to}")
     try:
         with app.app_context():
+            print("Creating email message...")
             msg = Message(
                 subject=subject,
                 recipients=[to],
                 body=body,
                 sender=app.config['MAIL_USERNAME']
             )
+            print("Sending email...")
             mail.send(msg)
             print(f"Email sent successfully to {to}")
     except Exception as e:
